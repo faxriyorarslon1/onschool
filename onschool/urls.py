@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+from users.views import (CustomTokenObtainPairView, UserChangePass,
+                            UserDetail, UserList, UsersRegisterView,
+                            password_reset_token_created)
+from rest_framework_simplejwt.views import TokenRefreshView
+from onschool import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/login/', CustomTokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('api/v1/refreshtoken/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/register/', UsersRegisterView.as_view(), name='register'),
 ]
